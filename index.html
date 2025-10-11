@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>neo</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <canvas id="canvas3d"></canvas>
+  <div class="glow-orb orb-1"></div>
+  <div class="glow-orb orb-2"></div>
+  
+  <div class="container">
+    <div class="profile-card">
+      <div class="card-glow"></div>
+      <div class="profile-header">
+        <div class="avatar-wrapper">
+          <div class="avatar-glow"></div>
+          <div class="avatar" id="avatar"></div>
+          <div class="status-badge offline" id="statusBadge"></div>
+        </div>
+        <div class="username" id="username">neo</div>
+      </div>
+
+      <div class="status-box">
+        <div class="status-label">About Me!</div>
+        <span class="typing-text" id="typingText"></span>
+      </div>
+    </div>
+
+    <div class="discord-panel">
+      <div class="card-glow"></div>
+      
+      <div class="discord-header">
+        <div class="discord-user">
+          <div class="discord-avatar" id="discordAvatar">
+            <div class="discord-status-dot offline" id="discordStatusDot"></div>
+          </div>
+          <div class="discord-info">
+            <div class="discord-name" id="discordName">korp</div>
+            <div class="discord-handle" id="discordHandle">@korp</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="custom-status-card" id="customStatusCard" style="display: none;">
+        <div class="custom-status-label">Status</div>
+        <div class="custom-status-content" id="customStatusContent"></div>
+      </div>
+
+      <div id="activitiesContainer"></div>
+
+      <div class="device-icons">
+        <svg id="desktopIcon" class="device-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+          <line x1="8" y1="21" x2="16" y2="21"></line>
+          <line x1="12" y1="17" x2="12" y2="21"></line>
+        </svg>
+        <svg id="mobileIcon" class="device-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
+          <line x1="12" y1="18" x2="12.01" y2="18"></line>
+        </svg>
+        <svg id="webIcon" class="device-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="2" y1="12" x2="22" y2="12"></line>
+          <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+        </svg>
+      </div>
+
+      <div class="korp">Inspired by<a href="https://korp.site" target="_blank">korp.site</a></div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
