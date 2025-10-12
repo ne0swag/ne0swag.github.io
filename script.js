@@ -132,7 +132,7 @@ let spotifyInterval = null;
 
 async function updatePresence() {
   try {
-    const res = await fetch('https://api.lanyard.rest/v1/users/683998472160280721');
+    const res = await fetch('https://api.lanyard.rest/v1/users/1363253536095211531');
     const data = await res.json();
     if (!data.success) return;
     
