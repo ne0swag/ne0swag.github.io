@@ -108,7 +108,8 @@ loopTitleChange();
 const texts = [
   "Learning More About Website Security",
   "Yeat Is Better",
-  "Orion Drift Basketball"
+  "Orion Drift Basketball",
+  "Cool People: Polar, Pine"
 ];
 let txtIdx = 0;
 let charIdx = 0;
