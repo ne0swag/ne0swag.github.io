@@ -1,208 +1,191 @@
-const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-const renderer = new THREE.WebGLRenderer({ 
-  canvas: document.getElementById('canvas3d'), 
-  alpha: true,
-  antialias: true 
-});
-renderer.setSize(window.innerWidth, window.innerHeight);
-renderer.setClearColor(0x000000, 1);
+const canvas = document.getElementById('canvas');
+const ctx = canvas.getContext('2d');
 
-const particles = new THREE.BufferGeometry();
-const pCount = 3500;
-const positions = new Float32Array(pCount * 3);
-const colors = new Float32Array(pCount * 3);
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
 
-for(let i = 0; i < pCount * 3; i += 3) {
-  positions[i] = (Math.random() - 0.5) * 250;
-  positions[i + 1] = (Math.random() - 0.5) * 250;
-  positions[i + 2] = (Math.random() - 0.5) * 250;
-  
-  const c = new THREE.Color();
-  c.setHSL(0.65 + Math.random() * 0.1, 0.65, 0.55);
-  colors[i] = c.r;
-  colors[i + 1] = c.g;
-  colors[i + 2] = c.b;
+const particles = [];
+const particleCount = 120;
+const mouse = { x: 0, y: 0 };
+
+class Particle {
+  constructor() {
+    this.reset();
+    this.y = Math.random() * canvas.height;
+  }
+
+  reset() {
+    this.x = Math.random() * canvas.width;
+    this.y = -10;
+    this.speed = Math.random() * 0.5 + 0.2;
+    this.size = Math.random() * 2 + 1;
+    this.opacity = Math.random() * 0.5 + 0.3;
+  }
+
+  update() {
+    this.y += this.speed;
+    
+    const dx = mouse.x - this.x;
+    const dy = mouse.y - this.y;
+    const dist = Math.sqrt(dx * dx + dy * dy);
+    
+    if (dist < 100) {
+      const angle = Math.atan2(dy, dx);
+      this.x -= Math.cos(angle) * 0.5;
+      this.y -= Math.sin(angle) * 0.5;
+    }
+
+    if (this.y > canvas.height) this.reset();
+  }
+
+  draw() {
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(139, 92, 246, ${this.opacity})`;
+    ctx.fill();
+  }
 }
 
-particles.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-particles.setAttribute('color', new THREE.BufferAttribute(colors, 3));
-
-const pMaterial = new THREE.PointsMaterial({
-  size: 1.2,
-  vertexColors: true,
-  transparent: true,
-  opacity: 0.7,
-  blending: THREE.AdditiveBlending
-});
-
-const pMesh = new THREE.Points(particles, pMaterial);
-scene.add(pMesh);
-
-const geo = new THREE.IcosahedronGeometry(12, 1);
-const mat = new THREE.MeshStandardMaterial({
-  color: 0x667eea,
-  wireframe: true,
-  emissive: 0x667eea,
-  emissiveIntensity: 0.25
-});
-const ico = new THREE.Mesh(geo, mat);
-scene.add(ico);
-
-const light1 = new THREE.PointLight(0x667eea, 1.8, 90);
-light1.position.set(25, 25, 25);
-scene.add(light1);
-
-const light2 = new THREE.PointLight(0x764ba2, 1.8, 90);
-light2.position.set(-25, -25, 25);
-scene.add(light2);
-
-camera.position.z = 65;
-
-let mx = 0, my = 0;
-
-document.addEventListener('mousemove', e => {
-  mx = (e.clientX / window.innerWidth) * 2 - 1;
-  my = -(e.clientY / window.innerHeight) * 2 + 1;
-});
-
-function animate3D() {
-  requestAnimationFrame(animate3D);
-  ico.rotation.x += 0.002;
-  ico.rotation.y += 0.004;
-  pMesh.rotation.y += 0.0004;
-  camera.position.x += (mx * 8 - camera.position.x) * 0.04;
-  camera.position.y += (my * 8 - camera.position.y) * 0.04;
-  camera.lookAt(scene.position);
-  renderer.render(scene, camera);
+for (let i = 0; i < particleCount; i++) {
+  particles.push(new Particle());
 }
 
-animate3D();
+function animate() {
+  ctx.fillStyle = 'rgba(10, 10, 15, 0.05)';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  particles.forEach(p => {
+    p.update();
+    p.draw();
+  });
+
+  requestAnimationFrame(animate);
+}
+
+animate();
 
 window.addEventListener('resize', () => {
-  camera.aspect = window.innerWidth / window.innerHeight;
-  camera.updateProjectionMatrix();
-  renderer.setSize(window.innerWidth, window.innerHeight);
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
 });
 
-async function loopTitleChange() {
-  const names = ["n", "ne", "neo"];
-  let idx = 0;
-  let fwd = true;
+document.addEventListener('mousemove', e => {
+  mouse.x = e.clientX;
+  mouse.y = e.clientY;
+});
 
-  while (true) {
-    document.title = names[idx];
-    await new Promise(r => setTimeout(r, 160));
-    if (fwd) {
-      idx++;
-      if (idx === names.length - 1) fwd = false;
-    } else {
-      idx--;
-      if (idx === 0) fwd = true;
-    }
-  }
-}
-
-loopTitleChange();
-
-const texts = [
-  "Discord Server: https://discord.gg/uUMERuBqh4",
-  "Learning More About Website Security",
-  "Yeat Is Better",
-  "Orion Drift Basketball",
-  "Cool People: Polar, Pine"
+const bioTexts = [
+  "learning FL studio",
+  "big fan of ayowitty",
+  "dre1mer, q2qr, repo, twisted"
 ];
-let txtIdx = 0;
+let bioIdx = 0;
 let charIdx = 0;
-let isDel = false;
-let typeSpeed = 90;
+let isDeleting = false;
+let typeSpeed = 80;
 
-function typeEffect() {
-  const cur = texts[txtIdx];
-  const el = document.getElementById('typingText');
+function typeBio() {
+  const el = document.getElementById('bioText');
+  const current = bioTexts[bioIdx];
   
-  if (isDel) {
-    el.innerHTML = cur.substring(0, charIdx - 1) + '<span class="typing-cursor"></span>';
+  if (isDeleting) {
+    el.textContent = current.substring(0, charIdx - 1);
     charIdx--;
-    typeSpeed = 45;
+    typeSpeed = 40;
   } else {
-    el.innerHTML = cur.substring(0, charIdx + 1) + '<span class="typing-cursor"></span>';
+    el.textContent = current.substring(0, charIdx + 1);
     charIdx++;
-    typeSpeed = 90;
+    typeSpeed = 80;
   }
 
-  if (!isDel && charIdx === cur.length) {
-    typeSpeed = 1800;
-    isDel = true;
-  } else if (isDel && charIdx === 0) {
-    isDel = false;
-    txtIdx = (txtIdx + 1) % texts.length;
-    typeSpeed = 450;
+  if (!isDeleting && charIdx === current.length) {
+    typeSpeed = 2000;
+    isDeleting = true;
+  } else if (isDeleting && charIdx === 0) {
+    isDeleting = false;
+    bioIdx = (bioIdx + 1) % bioTexts.length;
+    typeSpeed = 500;
   }
   
-  setTimeout(typeEffect, typeSpeed);
+  setTimeout(typeBio, typeSpeed);
 }
 
-let spotifyUpdateInterval = null;
+const titles = ["k", "ko", "kor", "korp"];
+let titleIdx = 0;
+let titleFwd = true;
 
-async function updateDiscordPresence() {
+function animateTitle() {
+  document.title = titles[titleIdx];
+  
+  if (titleFwd) {
+    titleIdx++;
+    if (titleIdx === titles.length - 1) titleFwd = false;
+  } else {
+    titleIdx--;
+    if (titleIdx === 0) titleFwd = true;
+  }
+  
+  setTimeout(animateTitle, 150);
+}
+
+let spotifyInterval = null;
+
+async function updatePresence() {
   try {
-    const resp = await fetch('https://api.lanyard.rest/v1/users/1363253536095211531');
-    const data = await resp.json();
+    const res = await fetch('https://api.lanyard.rest/v1/users/683998472160280721');
+    const data = await res.json();
     if (!data.success) return;
+    
     const d = data.data;
-
     const status = d.discord_status;
-    document.getElementById('statusBadge').className = `status-badge ${status}`;
-    document.getElementById('discordStatusDot').className = `discord-status-dot ${status}`;
+    
+    document.getElementById('statusIndicator').className = `status-indicator ${status}`;
 
     if (d.discord_user) {
-      const username = d.discord_user.username;
-      const display = d.discord_user.display_name || username;
+      const user = d.discord_user;
+      const display = user.display_name || user.username;
+      const avatar = `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png?size=256`;
+      
       document.getElementById('username').textContent = display;
-      document.getElementById('discordName').textContent = display;
-      document.getElementById('discordHandle').textContent = `@${username}`;
-
-      const uid = d.discord_user.id;
-      const avatarHash = d.discord_user.avatar;
-      const avatarUrl = `https://cdn.discordapp.com/avatars/${uid}/${avatarHash}.png?size=256`;
-      document.getElementById('avatar').style.backgroundImage = `url('${avatarUrl}')`;
-      document.getElementById('discordAvatar').style.backgroundImage = `url('${avatarUrl}')`;
+      document.getElementById('handle').textContent = `@${user.username}`;
+      document.getElementById('avatar').style.backgroundImage = `url('${avatar}')`;
     }
 
-    const custom = d.activities.find(a => a.type === 4);
-    const customCard = document.getElementById('customStatusCard');
-    const customContent = document.getElementById('customStatusContent');
+    const customActivity = d.activities.find(a => a.type === 4);
+    const customEl = document.getElementById('customStatus');
+    const contentEl = document.getElementById('statusContent');
     
-    if (custom) {
+    if (customActivity) {
       let html = '';
-      if (custom.emoji) {
-        if (custom.emoji.id) {
-          const url = `https://cdn.discordapp.com/emojis/${custom.emoji.id}.${custom.emoji.animated ? 'gif' : 'png'}`;
-          html += `<img src="${url}" alt="${custom.emoji.name}">`;
+      if (customActivity.emoji) {
+        if (customActivity.emoji.id) {
+          html += `<img src="https://cdn.discordapp.com/emojis/${customActivity.emoji.id}.${customActivity.emoji.animated ? 'gif' : 'png'}" alt="">`;
         } else {
-          html += `<span style="font-size: 26px;">${custom.emoji.name}</span>`;
+          html += `<span style="font-size:24px">${customActivity.emoji.name}</span>`;
         }
       }
-      if (custom.state) html += `<span>${custom.state}</span>`;
-      customContent.innerHTML = html;
-      customCard.style.display = 'block';
+      if (customActivity.state) html += `<span>${customActivity.state}</span>`;
+      contentEl.innerHTML = html;
+      customEl.style.display = 'block';
     } else {
-      customCard.style.display = 'none';
+      customEl.style.display = 'none';
     }
 
-    const container = document.getElementById('activitiesContainer');
+    const container = document.getElementById('activities');
     container.innerHTML = '';
 
-    if (spotifyUpdateInterval) {
-      clearInterval(spotifyUpdateInterval);
-      spotifyUpdateInterval = null;
+    if (spotifyInterval) {
+      clearInterval(spotifyInterval);
+      spotifyInterval = null;
     }
 
     if (d.listening_to_spotify && d.spotify) {
       const sp = d.spotify;
       const card = document.createElement('div');
       card.className = 'activity-card';
+      
+      const total = sp.timestamps.end - sp.timestamps.start;
+      
       card.innerHTML = `
         <div class="spotify-badge">
           <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
@@ -211,72 +194,73 @@ async function updateDiscordPresence() {
           Spotify
         </div>
         <div class="activity-header">
-          <img src="${sp.album_art_url}" class="activity-icon" alt="Album">
+          <img src="${sp.album_art_url}" class="activity-icon" alt="">
           <div class="activity-info">
             <div class="activity-name">${sp.song}</div>
             <div class="activity-details">${sp.artist}</div>
             <div class="activity-state">${sp.album}</div>
           </div>
         </div>
-        <div class="activity-time">
-          <span class="spotify-elapsed">0:00</span>
-          <div class="time-bar">
-            <div class="time-progress" style="width: 0%"></div>
+        <div class="progress-bar">
+          <span class="time-start">0:00</span>
+          <div class="bar">
+            <div class="bar-fill" style="width:0%"></div>
           </div>
-          <span class="spotify-total">${formatTime(sp.timestamps.end - sp.timestamps.start)}</span>
+          <span class="time-end">${formatTime(total)}</span>
         </div>
       `;
+      
       container.appendChild(card);
 
       const updateSpotify = () => {
         const elapsed = Date.now() - sp.timestamps.start;
-        const total = sp.timestamps.end - sp.timestamps.start;
         const progress = Math.min((elapsed / total) * 100, 100);
         
-        const progressBar = card.querySelector('.time-progress');
-        const elapsedSpan = card.querySelector('.spotify-elapsed');
+        const fill = card.querySelector('.bar-fill');
+        const start = card.querySelector('.time-start');
         
-        if (progressBar) progressBar.style.width = progress + '%';
-        if (elapsedSpan) elapsedSpan.textContent = formatTime(elapsed);
+        if (fill) fill.style.width = progress + '%';
+        if (start) start.textContent = formatTime(elapsed);
         
-        if (progress >= 100) updateDiscordPresence();
+        if (progress >= 100) updatePresence();
       };
 
       updateSpotify();
-      spotifyUpdateInterval = setInterval(updateSpotify, 1000);
+      spotifyInterval = setInterval(updateSpotify, 1000);
     }
 
-    const otherActivities = d.activities.filter(a => a.type !== 4 && a.name !== 'Spotify');
-    otherActivities.forEach(activity => {
+    const activities = d.activities.filter(a => a.type !== 4 && a.name !== 'Spotify');
+    
+    activities.forEach(act => {
       const card = document.createElement('div');
       card.className = 'activity-card';
       
-      let iconUrl = '';
-      if (activity.assets && activity.assets.large_image) {
-        if (activity.assets.large_image.startsWith('mp:')) {
-          iconUrl = `https://media.discordapp.net/${activity.assets.large_image.slice(3)}`;
-        } else if (activity.application_id) {
-          iconUrl = `https://cdn.discordapp.com/app-assets/${activity.application_id}/${activity.assets.large_image}.png`;
+      let icon = '';
+      if (act.assets?.large_image) {
+        if (act.assets.large_image.startsWith('mp:')) {
+          icon = `https://media.discordapp.net/${act.assets.large_image.slice(3)}`;
+        } else if (act.application_id) {
+          icon = `https://cdn.discordapp.com/app-assets/${act.application_id}/${act.assets.large_image}.png`;
         }
       }
 
-      let timeHtml = '';
-      if (activity.timestamps && activity.timestamps.start) {
-        const elapsed = Date.now() - activity.timestamps.start;
-        timeHtml = `<div class="activity-time">${formatTime(elapsed)} elapsed</div>`;
+      let elapsed = '';
+      if (act.timestamps?.start) {
+        const time = Date.now() - act.timestamps.start;
+        elapsed = `<div class="activity-state">${formatTime(time)} elapsed</div>`;
       }
 
       card.innerHTML = `
         <div class="activity-header">
-          ${iconUrl ? `<img src="${iconUrl}" class="activity-icon" alt="${activity.name}">` : '<div class="activity-icon"></div>'}
+          ${icon ? `<img src="${icon}" class="activity-icon" alt="">` : '<div class="activity-icon"></div>'}
           <div class="activity-info">
-            <div class="activity-name">${activity.name}</div>
-            ${activity.details ? `<div class="activity-details">${activity.details}</div>` : ''}
-            ${activity.state ? `<div class="activity-state">${activity.state}</div>` : ''}
+            <div class="activity-name">${act.name}</div>
+            ${act.details ? `<div class="activity-details">${act.details}</div>` : ''}
+            ${act.state && !act.timestamps?.start ? `<div class="activity-state">${act.state}</div>` : elapsed}
           </div>
         </div>
-        ${timeHtml}
       `;
+      
       container.appendChild(card);
     });
 
@@ -285,17 +269,18 @@ async function updateDiscordPresence() {
     document.getElementById('webIcon').classList.toggle('active', d.active_on_discord_web);
 
   } catch (err) {
-    console.error('Discord presence error:', err);
+    console.error(err);
   }
 }
 
 function formatTime(ms) {
-  const seconds = Math.floor(ms / 1000);
-  const mins = Math.floor(seconds / 60);
-  const secs = seconds % 60;
-  return `${mins}:${secs.toString().padStart(2, '0')}`;
+  const sec = Math.floor(ms / 1000);
+  const min = Math.floor(sec / 60);
+  const s = sec % 60;
+  return `${min}:${s.toString().padStart(2, '0')}`;
 }
 
-typeEffect();
-updateDiscordPresence();
-setInterval(updateDiscordPresence, 3000);
+typeBio();
+animateTitle();
+updatePresence();
+setInterval(updatePresence, 3000);
