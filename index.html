@@ -10,42 +10,63 @@
 body{background:#000;color:#e4e4e7;font-family:'Inter',sans-serif;min-height:100vh;display:flex;justify-content:center;align-items:center;padding:20px;position:relative;overflow:hidden}
 #canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0}
 .container{max-width:680px;width:100%;position:relative;z-index:1}
-.profile-card{background:rgba(15,15,20,.35);backdrop-filter:blur(50px)saturate(200%);border:1px solid rgba(255,255,255,.08);border-radius:20px;padding:40px;transition:all .4s cubic-bezier(.4,0,.2,1);box-shadow:0 8px 32px rgba(0,0,0,.5)}
+.profile-card{background:rgba(15,15,20,.4);backdrop-filter:blur(50px)saturate(200%);border:1px solid rgba(255,255,255,.08);border-radius:20px;padding:40px;transition:all .4s cubic-bezier(.4,0,.2,1);box-shadow:0 8px 32px rgba(0,0,0,.5)}
 .profile-card:hover{border-color:rgba(255,255,255,.14);box-shadow:0 12px 48px rgba(0,0,0,.6),0 0 80px rgba(139,92,246,.15);transform:translateY(-2px)}
-.profile-header{display:flex;gap:32px;align-items:center;margin-bottom:32px}
+.profile-header{display:flex;gap:28px;align-items:flex-start;margin-bottom:32px}
 .avatar-section{position:relative;flex-shrink:0}
-.avatar-wrapper{position:relative;width:120px;height:120px}
+.avatar-wrapper{position:relative;width:110px;height:110px}
 .avatar{width:100%;height:100%;border-radius:50%;background:#0a0a0f center/cover;border:3px solid rgba(255,255,255,.12);transition:all .4s cubic-bezier(.4,0,.2,1);cursor:pointer;position:relative;z-index:2}
 .avatar:hover{transform:scale(1.06)rotate(2deg);border-color:rgba(255,255,255,.25);box-shadow:0 8px 32px rgba(139,92,246,.3)}
 .avatar:active{transform:scale(1.02)rotate(0deg)}
 .avatar-glow{position:absolute;inset:-8px;border-radius:50%;background:radial-gradient(circle,rgba(139,92,246,.4),transparent 70%);opacity:0;transition:opacity .4s ease;z-index:1;animation:pulseGlow 3s ease-in-out infinite}
 .avatar:hover + .avatar-glow{opacity:1}
 @keyframes pulseGlow{0%,100%{transform:scale(1)}50%{transform:scale(1.1)}}
-.status-badge{position:absolute;bottom:6px;right:6px;width:32px;height:32px;border-radius:50%;border:5px solid rgba(15,15,20,.95);z-index:3;transition:all .3s ease;display:flex;align-items:center;justify-content:center}
+.status-badge{position:absolute;bottom:2px;right:2px;width:28px;height:28px;border-radius:50%;border:4px solid rgba(15,15,20,.95);z-index:3;transition:all .3s ease}
 .status-badge.online{background:#3ba55d;box-shadow:0 0 20px rgba(59,165,93,.8),0 0 40px rgba(59,165,93,.4);animation:pulse 2.5s ease-in-out infinite}
 .status-badge.idle{background:#faa81a;box-shadow:0 0 20px rgba(250,168,26,.8)}
 .status-badge.dnd{background:#ed4245;box-shadow:0 0 20px rgba(237,66,69,.8)}
 .status-badge.offline{background:#6b7280}
 @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.12)}}
-.device-icons{position:absolute;display:flex;gap:3px;opacity:0;transition:opacity .3s ease;pointer-events:none}
-.status-badge:hover .device-icons{opacity:1}
-.device-mini{width:10px;height:10px;stroke:rgba(255,255,255,.9);stroke-width:2px;filter:drop-shadow(0 1px 2px rgba(0,0,0,.5))}
 .user-info{flex:1;min-width:0}
-.username-container{display:flex;align-items:center;gap:12px;margin-bottom:8px;flex-wrap:wrap}
-.username{font-size:32px;font-weight:800;color:#fff;letter-spacing:-.8px;background:linear-gradient(135deg,#fff,#d4d4d8);-webkit-background-clip:text;-webkit-text-fill-color:transparent;transition:transform .3s ease}
+.name-row{display:flex;align-items:center;gap:12px;margin-bottom:6px;flex-wrap:wrap}
+.username{font-size:26px;font-weight:700;color:#fff;letter-spacing:-.6px;transition:transform .3s ease}
 .username:hover{transform:scale(1.02)}
-.clan-badge{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;background:rgba(139,92,246,.15);border:1px solid rgba(139,92,246,.3);border-radius:8px;font-size:13px;font-weight:700;color:#a78bfa;transition:all .3s ease;cursor:pointer}
+.clan-badge{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;background:rgba(139,92,246,.15);border:1px solid rgba(139,92,246,.3);border-radius:8px;font-size:12px;font-weight:700;color:#a78bfa;transition:all .3s ease;cursor:pointer}
 .clan-badge:hover{background:rgba(139,92,246,.25);border-color:rgba(139,92,246,.5);transform:translateY(-1px)scale(1.05)}
-.clan-badge img{width:18px;height:18px;border-radius:4px}
-.handle{font-size:16px;color:#9ca3af;font-weight:500;margin-bottom:4px;transition:color .3s ease;cursor:pointer;user-select:all}
+.clan-badge img{width:16px;height:16px;border-radius:3px}
+.handle{font-size:15px;color:#9ca3af;font-weight:500;margin-bottom:8px;transition:color .3s ease;cursor:pointer;user-select:all}
 .handle:hover{color:#d1d5db}
+.device-row{display:flex;gap:6px}
+.device-icon{width:20px;height:20px;display:flex;align-items:center;justify-content:center;transition:all .3s ease;opacity:.35}
+.device-icon.active{opacity:1}
+.device-icon svg{width:100%;height:100%;stroke:#9ca3af;fill:none;transition:stroke .3s ease}
+.device-icon.active svg{stroke:#6366f1}
 .copy-toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%)translateY(100px);background:rgba(139,92,246,.9);color:#fff;padding:12px 24px;border-radius:10px;font-size:14px;font-weight:600;opacity:0;transition:all .3s ease;z-index:10000;pointer-events:none}
 .copy-toast.show{opacity:1;transform:translateX(-50%)translateY(0)}
+.custom-status{background:rgba(25,25,35,.4);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:14px 18px;margin-bottom:20px;display:none;transition:all .3s ease}
+.custom-status:hover{background:rgba(30,30,40,.5);border-color:rgba(255,255,255,.12)}
+.status-content{display:flex;align-items:center;gap:10px;font-size:14px;color:#d1d5db}
+.status-emoji{width:22px;height:22px;flex-shrink:0}
 .bio-section{margin-bottom:28px}
 .bio-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:#71717a;margin-bottom:10px}
 .bio-text{font-size:15px;color:#d1d5db;line-height:1.6;min-height:24px}
 .bio-text::after{content:'|';margin-left:2px;animation:blink 1s infinite}
 @keyframes blink{0%,50%{opacity:1}51%,100%{opacity:0}}
+.activities-section{margin-bottom:28px}
+.activity-card{background:rgba(25,25,35,.4);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:16px;margin-bottom:12px;transition:all .3s ease}
+.activity-card:hover{background:rgba(30,30,40,.5);border-color:rgba(255,255,255,.12);transform:translateX(3px)}
+.activity-card:last-child{margin-bottom:0}
+.spotify-badge{display:inline-flex;align-items:center;gap:5px;background:rgba(30,215,96,.12);border:1px solid rgba(30,215,96,.25);padding:3px 9px;border-radius:16px;font-size:10px;font-weight:700;color:#1ed760;text-transform:uppercase;letter-spacing:.6px;margin-bottom:10px}
+.spotify-badge svg{width:11px;height:11px}
+.activity-header{display:flex;gap:12px}
+.activity-icon{width:52px;height:52px;border-radius:9px;background:#1a1a24;object-fit:cover;flex-shrink:0}
+.activity-info{flex:1;min-width:0}
+.activity-name{font-size:15px;font-weight:700;color:#fff;margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.activity-details{font-size:13px;color:#a1a1aa;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.activity-state{font-size:12px;color:#71717a;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.progress-bar{display:flex;align-items:center;gap:8px;margin-top:10px;font-size:11px;color:#71717a;font-weight:500}
+.bar{flex:1;height:4px;background:rgba(255,255,255,.08);border-radius:2px;overflow:hidden}
+.bar-fill{height:100%;background:linear-gradient(90deg,#6366f1,#8b5cf6);border-radius:2px;transition:width .5s linear}
 .links-section{display:flex;gap:12px;flex-wrap:wrap}
 .link-btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:12px 24px;background:rgba(25,25,35,.5);border:1px solid rgba(255,255,255,.1);border-radius:12px;color:#d1d5db;text-decoration:none;font-size:14px;font-weight:600;transition:all .3s cubic-bezier(.4,0,.2,1);cursor:pointer;position:relative;overflow:hidden;flex:1;min-width:140px}
 .link-btn::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(139,92,246,.2),rgba(99,102,241,.2));opacity:0;transition:opacity .3s ease}
@@ -59,16 +80,21 @@ body{background:#000;color:#e4e4e7;font-family:'Inter',sans-serif;min-height:100
 .footer{text-align:center;font-size:11px;color:#52525b;margin-top:32px;padding-top:24px;border-top:1px solid rgba(255,255,255,.06)}
 .footer a{color:#8b5cf6;text-decoration:none;transition:color .2s ease;font-weight:600}
 .footer a:hover{color:#a78bfa}
+.dev-credit{position:fixed;top:20px;right:20px;font-size:80px;color:#52525b;z-index:5;font-weight:500;opacity:.7;transition:opacity .3s ease}
+.dev-credit:hover{opacity:1}
+.dev-credit a{color:#8b5cf6;text-decoration:none;transition:color .2s ease;font-weight:600}
+.dev-credit a:hover{color:#a78bfa}
 .loading{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);color:#8b5cf6;font-size:14px;font-weight:600;opacity:0;transition:opacity .3s ease;z-index:2}
 .loading.show{opacity:1}
 @media(max-width:640px){
-body{cursor:auto}
-.cursor,.cursor-dot{display:none}
-.profile-header{flex-direction:column;text-align:center}
-.username-container{justify-content:center}
-.bio-section{text-align:center}
+.profile-header{flex-direction:column;text-align:center;align-items:center}
+.name-row{justify-content:center}
+.device-row{justify-content:center}
+.bio-section,.custom-status{text-align:center}
+.status-content{justify-content:center}
 .links-section{flex-direction:column}
 .link-btn{min-width:0}
+.dev-credit{top:10px;right:10px;font-size:10px}
 }
 @media(prefers-reduced-motion:reduce){
 .avatar,.link-btn,.username{transition:none}
@@ -79,10 +105,9 @@ body{cursor:auto}
 </head>
 <body>
   <canvas id="canvas"></canvas>
-  <div class="cursor"></div>
-  <div class="cursor-dot"></div>
   <div class="loading show" id="loading">Loading...</div>
   <div class="copy-toast" id="copyToast">Copied to clipboard!</div>
+  <div class="dev-credit">developed by <a href="https://korp.site" target="_blank" rel="noopener">korp</a></div>
   
   <div class="container" style="opacity:0;transition:opacity .5s ease" id="container">
     <div class="profile-card">
@@ -91,18 +116,12 @@ body{cursor:auto}
           <div class="avatar-wrapper">
             <div class="avatar" id="avatar"></div>
             <div class="avatar-glow"></div>
-            <div class="status-badge offline" id="statusBadge">
-              <svg class="device-icons" style="width:28px;height:10px;position:static" viewBox="0 0 42 12">
-                <rect id="desktopIcon" x="0" y="1" width="12" height="8" rx="2" class="device-mini" fill="none"/>
-                <rect id="mobileIcon" x="15" y="0" width="8" height="12" rx="2" class="device-mini" fill="none"/>
-                <circle id="webIcon" cx="32" cy="6" r="5" class="device-mini" fill="none"/>
-              </svg>
-            </div>
+            <div class="status-badge offline" id="statusBadge"></div>
           </div>
         </div>
         
         <div class="user-info">
-          <div class="username-container">
+          <div class="name-row">
             <h1 class="username" id="username">neoswag</h1>
             <div class="clan-badge" id="clanBadge" style="display:none">
               <img id="clanIcon" src="" alt="">
@@ -110,13 +129,20 @@ body{cursor:auto}
             </div>
           </div>
           <p class="handle" id="handle" title="Click to copy">@neoswag</p>
+          <div class="device-row" id="deviceRow"></div>
         </div>
+      </div>
+
+      <div class="custom-status" id="customStatus">
+        <div class="status-content" id="statusContent"></div>
       </div>
 
       <div class="bio-section">
         <div class="bio-label">About</div>
         <p class="bio-text" id="bioText"></p>
       </div>
+
+      <div class="activities-section" id="activitiesSection"></div>
 
       <div class="links-section">
         <a href="https://discord.gg/uUMERuBqh4" class="link-btn" target="_blank" rel="noopener">
@@ -136,255 +162,7 @@ body{cursor:auto}
   </div>
 
   <script>
-const canvas = document.getElementById('canvas');
-const ctx = canvas.getContext('2d');
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
-
-class Star {
-  constructor() {
-    this.reset();
-  }
-  
-  reset() {
-    this.x = Math.random() * canvas.width;
-    this.y = Math.random() * canvas.height;
-    this.z = Math.random() * 2000;
-    this.size = Math.random() * 2;
-  }
-  
-  update() {
-    this.z -= 3;
-    if (this.z <= 0) this.reset();
-  }
-  
-  draw() {
-    const x = (this.x - canvas.width / 2) * (2000 / this.z) + canvas.width / 2;
-    const y = (this.y - canvas.height / 2) * (2000 / this.z) + canvas.height / 2;
-    const s = (1 - this.z / 2000) * this.size * 2;
-    const opacity = 1 - this.z / 2000;
-    
-    ctx.beginPath();
-    ctx.arc(x, y, s, 0, Math.PI * 2);
-    ctx.fillStyle = `rgba(139, 92, 246, ${opacity * 0.8})`;
-    ctx.fill();
-    
-    if (s > 0.5) {
-      ctx.beginPath();
-      ctx.arc(x, y, s * 2, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(139, 92, 246, ${opacity * 0.2})`;
-      ctx.fill();
-    }
-  }
-}
-
-const stars = Array.from({length: 400}, () => new Star());
-
-class Trail {
-  constructor(x, y) {
-    this.x = x;
-    this.y = y;
-    this.vx = (Math.random() - 0.5) * 4;
-    this.vy = (Math.random() - 0.5) * 4;
-    this.life = 1;
-    this.size = Math.random() * 4 + 2;
-    this.color = Math.random() > 0.5 ? [139, 92, 246] : [99, 102, 241];
-  }
-  
-  update() {
-    this.x += this.vx;
-    this.y += this.vy;
-    this.vx *= 0.98;
-    this.vy *= 0.98;
-    this.life -= 0.015;
-  }
-  
-  draw() {
-    const grad = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.size);
-    grad.addColorStop(0, `rgba(${this.color[0]}, ${this.color[1]}, ${this.color[2]}, ${this.life * 0.8})`);
-    grad.addColorStop(1, `rgba(${this.color[0]}, ${this.color[1]}, ${this.color[2]}, 0)`);
-    
-    ctx.beginPath();
-    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-    ctx.fillStyle = grad;
-    ctx.fill();
-  }
-}
-
-const trails = [];
-let mouse = {x: 0, y: 0, lastX: 0, lastY: 0};
-
-document.addEventListener('mousemove', e => {
-  mouse.lastX = mouse.x;
-  mouse.lastY = mouse.y;
-  mouse.x = e.clientX;
-  mouse.y = e.clientY;
-  
-  const dist = Math.hypot(mouse.x - mouse.lastX, mouse.y - mouse.lastY);
-  const count = Math.min(Math.floor(dist / 5), 8);
-  
-  for (let i = 0; i < count; i++) {
-    trails.push(new Trail(mouse.x, mouse.y));
-  }
-});
-
-function animate() {
-  ctx.fillStyle = 'rgba(0, 0, 0, 0.12)';
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
-  
-  stars.forEach(star => {
-    star.update();
-    star.draw();
-  });
-  
-  for (let i = trails.length - 1; i >= 0; i--) {
-    trails[i].update();
-    trails[i].draw();
-    if (trails[i].life <= 0) trails.splice(i, 1);
-  }
-  
-  requestAnimationFrame(animate);
-}
-
-animate();
-
-window.addEventListener('resize', () => {
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-});
-
-const cursor = document.querySelector('.cursor');
-const cursorDot = document.querySelector('.cursor-dot');
-
-document.addEventListener('mousemove', e => {
-  cursor.style.left = e.clientX + 'px';
-  cursor.style.top = e.clientY + 'px';
-  cursorDot.style.left = e.clientX + 'px';
-  cursorDot.style.top = e.clientY + 'px';
-});
-
-document.querySelectorAll('a, .avatar, .handle, .clan-badge').forEach(el => {
-  el.addEventListener('mouseenter', () => {
-    cursor.classList.add('hover');
-    cursorDot.classList.add('hover');
-  });
-  el.addEventListener('mouseleave', () => {
-    cursor.classList.remove('hover');
-    cursorDot.classList.remove('hover');
-  });
-});
-
-const bioTexts = [
-  "Discord Server: https://discord.gg/uUMERuBqh4",
-  "Learning More About Website Security",
-  "Cool People: Polar and Pine",
-];
-let bioIdx = 0;
-let charIdx = 0;
-let isDeleting = false;
-let typeSpeed = 80;
-
-function typeBio() {
-  const el = document.getElementById('bioText');
-  const current = bioTexts[bioIdx];
-  
-  if (isDeleting) {
-    el.textContent = current.substring(0, charIdx - 1);
-    charIdx--;
-    typeSpeed = 40;
-  } else {
-    el.textContent = current.substring(0, charIdx + 1);
-    charIdx++;
-    typeSpeed = 80;
-  }
-
-  if (!isDeleting && charIdx === current.length) {
-    typeSpeed = 2000;
-    isDeleting = true;
-  } else if (isDeleting && charIdx === 0) {
-    isDeleting = false;
-    bioIdx = (bioIdx + 1) % bioTexts.length;
-    typeSpeed = 500;
-  }
-  
-  setTimeout(typeBio, typeSpeed);
-}
-
-const titles = ["n", "ne", "neo"];
-let titleIdx = 0;
-let titleFwd = true;
-
-function animateTitle() {
-  document.title = titles[titleIdx];
-  
-  if (titleFwd) {
-    titleIdx++;
-    if (titleIdx === titles.length - 1) titleFwd = false;
-  } else {
-    titleIdx--;
-    if (titleIdx === 0) titleFwd = true;
-  }
-  
-  setTimeout(animateTitle, 150);
-}
-
-document.getElementById('handle').addEventListener('click', async () => {
-  const handle = document.getElementById('handle').textContent;
-  try {
-    await navigator.clipboard.writeText(handle);
-    const toast = document.getElementById('copyToast');
-    toast.classList.add('show');
-    setTimeout(() => toast.classList.remove('show'), 2000);
-  } catch (err) {
-    console.error('Failed to copy:', err);
-  }
-});
-
-async function updatePresence() {
-  try {
-    const res = await fetch('https://api.lanyard.rest/v1/users/1363253536095211531');
-    const data = await res.json();
-    if (!data.success) return;
-    
-    const d = data.data;
-    const user = d.discord_user;
-    const status = d.discord_status;
-    
-    document.getElementById('statusBadge').className = `status-badge ${status}`;
-    
-    const display = user.display_name || user.global_name || user.username;
-    const avatar = `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png?size=256`;
-    
-    document.getElementById('username').textContent = display;
-    document.getElementById('handle').textContent = `@${user.username}`;
-    document.getElementById('avatar').style.backgroundImage = `url('${avatar}')`;
-    
-    if (user.primary_guild) {
-      const guild = user.primary_guild;
-      const clanIcon = `https://cdn.discordapp.com/clan-badges/${guild.identity_guild_id}/${guild.badge}.png?size=64`;
-      
-      document.getElementById('clanIcon').src = clanIcon;
-      document.getElementById('clanTag').textContent = guild.tag;
-      document.getElementById('clanBadge').style.display = 'inline-flex';
-    }
-    
-    document.getElementById('desktopIcon').style.opacity = d.active_on_discord_desktop ? '1' : '0.2';
-    document.getElementById('mobileIcon').style.opacity = d.active_on_discord_mobile ? '1' : '0.2';
-    document.getElementById('webIcon').style.opacity = d.active_on_discord_web ? '1' : '0.2';
-
-    document.getElementById('loading').classList.remove('show');
-    document.getElementById('container').style.opacity = '1';
-
-  } catch (err) {
-    console.error(err);
-    document.getElementById('loading').textContent = 'Failed to load';
-  }
-}
-
-typeBio();
-animateTitle();
-updatePresence();
-setInterval(updatePresence, 3000);
+const canvas=document.getElementById('canvas');const ctx=canvas.getContext('2d');canvas.width=window.innerWidth;canvas.height=window.innerHeight;class Star{constructor(){this.reset()}reset(){this.x=Math.random()*canvas.width;this.y=Math.random()*canvas.height;this.z=Math.random()*2000;this.size=Math.random()*2}update(){this.z-=3;if(this.z<=0)this.reset()}draw(){const x=(this.x-canvas.width/2)*(2000/this.z)+canvas.width/2;const y=(this.y-canvas.height/2)*(2000/this.z)+canvas.height/2;const s=(1-this.z/2000)*this.size*2;const opacity=1-this.z/2000;ctx.beginPath();ctx.arc(x,y,s,0,Math.PI*2);ctx.fillStyle=`rgba(139, 92, 246, ${opacity * 0.8})`;ctx.fill();if(s>0.5){ctx.beginPath();ctx.arc(x,y,s*2,0,Math.PI*2);ctx.fillStyle=`rgba(139, 92, 246, ${opacity * 0.2})`;ctx.fill()}}}const stars=Array.from({length:400},()=>new Star());class Trail{constructor(x,y){this.x=x;this.y=y;this.vx=(Math.random()-0.5)*4;this.vy=(Math.random()-0.5)*4;this.life=1;this.size=Math.random()*4+2;this.color=Math.random()>0.5?[139,92,246]:[99,102,241]}update(){this.x+=this.vx;this.y+=this.vy;this.vx*=0.98;this.vy*=0.98;this.life-=0.015}draw(){const grad=ctx.createRadialGradient(this.x,this.y,0,this.x,this.y,this.size);grad.addColorStop(0,`rgba(${this.color[0]}, ${this.color[1]}, ${this.color[2]}, ${this.life * 0.8})`);grad.addColorStop(1,`rgba(${this.color[0]}, ${this.color[1]}, ${this.color[2]}, 0)`);ctx.beginPath();ctx.arc(this.x,this.y,this.size,0,Math.PI*2);ctx.fillStyle=grad;ctx.fill()}}const trails=[];let mouse={x:0,y:0,lastX:0,lastY:0};document.addEventListener('mousemove',e=>{mouse.lastX=mouse.x;mouse.lastY=mouse.y;mouse.x=e.clientX;mouse.y=e.clientY;const dist=Math.hypot(mouse.x-mouse.lastX,mouse.y-mouse.lastY);const count=Math.min(Math.floor(dist/5),8);for(let i=0;i<count;i++){trails.push(new Trail(mouse.x,mouse.y))}});function animate(){ctx.fillStyle='rgba(0, 0, 0, 0.12)';ctx.fillRect(0,0,canvas.width,canvas.height);stars.forEach(star=>{star.update();star.draw()});for(let i=trails.length-1;i>=0;i--){trails[i].update();trails[i].draw();if(trails[i].life<=0)trails.splice(i,1)}requestAnimationFrame(animate)}animate();window.addEventListener('resize',()=>{canvas.width=window.innerWidth;canvas.height=window.innerHeight});const bioTexts=["Discord Server: https://discord.gg/uUMERuBqh4","Learning More About Website Security","Cool People: Polar and Pine"];let bioIdx=0;let charIdx=0;let isDeleting=false;let typeSpeed=80;function typeBio(){const el=document.getElementById('bioText');const current=bioTexts[bioIdx];if(isDeleting){el.textContent=current.substring(0,charIdx-1);charIdx--;typeSpeed=40}else{el.textContent=current.substring(0,charIdx+1);charIdx++;typeSpeed=80}if(!isDeleting&&charIdx===current.length){typeSpeed=2000;isDeleting=true}else if(isDeleting&&charIdx===0){isDeleting=false;bioIdx=(bioIdx+1)%bioTexts.length;typeSpeed=500}setTimeout(typeBio,typeSpeed)}const titles=["n","ne","neo"];let titleIdx=0;let titleFwd=true;function animateTitle(){document.title=titles[titleIdx];if(titleFwd){titleIdx++;if(titleIdx===titles.length-1)titleFwd=false}else{titleIdx--;if(titleIdx===0)titleFwd=true}setTimeout(animateTitle,150)}document.getElementById('handle').addEventListener('click',async()=>{const handle=document.getElementById('handle').textContent;try{await navigator.clipboard.writeText(handle);const toast=document.getElementById('copyToast');toast.classList.add('show');setTimeout(()=>toast.classList.remove('show'),2000)}catch(err){console.error('Failed to copy:',err)}});let spotifyInterval=null;async function updatePresence(){try{const res=await fetch('https://api.lanyard.rest/v1/users/1363253536095211531');const data=await res.json();if(!data.success)return;const d=data.data;const user=d.discord_user;const status=d.discord_status;document.getElementById('statusBadge').className=`status-badge ${status}`;const display=user.display_name||user.global_name||user.username;const avatar=`https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png?size=256`;document.getElementById('username').textContent=display;document.getElementById('handle').textContent=`@${user.username}`;document.getElementById('avatar').style.backgroundImage=`url('${avatar}')`;if(user.clan){const clanIcon=`https://cdn.discordapp.com/clan-badges/${user.clan.identity_guild_id}/${user.clan.badge}.png?size=64`;document.getElementById('clanIcon').src=clanIcon;document.getElementById('clanTag').textContent=user.clan.tag;document.getElementById('clanBadge').style.display='inline-flex'}const deviceRow=document.getElementById('deviceRow');deviceRow.innerHTML='';const devices=[];if(d.active_on_discord_desktop)devices.push('<svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="14" rx="2"/><path d="M8 18h8"/></svg>');if(d.active_on_discord_mobile)devices.push('<svg viewBox="0 0 24 24"><rect x="6" y="2" width="12" height="20" rx="2"/></svg>');if(d.active_on_discord_web)devices.push('<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/></svg>');if(devices.length===0)devices.push('<svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="14" rx="2"/><path d="M8 18h8"/></svg>');devices.forEach((svg,idx)=>{const icon=document.createElement('div');icon.className='device-icon'+(idx<(d.active_on_discord_desktop?1:0)+(d.active_on_discord_mobile?1:0)+(d.active_on_discord_web?1:0)?' active':'');icon.innerHTML=svg;deviceRow.appendChild(icon)});const customActivity=d.activities.find(a=>a.type===4);const customEl=document.getElementById('customStatus');const contentEl=document.getElementById('statusContent');if(customActivity){let html='';if(customActivity.emoji){if(customActivity.emoji.id){html+=`<img class="status-emoji" src="https://cdn.discordapp.com/emojis/${customActivity.emoji.id}.${customActivity.emoji.animated?'gif':'png'}" alt="">`}else{html+=`<span class="status-emoji" style="font-size:22px">${customActivity.emoji.name}</span>`}}if(customActivity.state)html+=`<span>${customActivity.state}</span>`;contentEl.innerHTML=html;customEl.style.display='block'}else{customEl.style.display='none'}const container=document.getElementById('activitiesSection');container.innerHTML='';if(spotifyInterval){clearInterval(spotifyInterval);spotifyInterval=null}if(d.listening_to_spotify&&d.spotify){const sp=d.spotify;const card=document.createElement('div');card.className='activity-card';const total=sp.timestamps.end-sp.timestamps.start;card.innerHTML=`<div class="spotify-badge"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>Spotify</div><div class="activity-header"><img src="${sp.album_art_url}" class="activity-icon" alt=""><div class="activity-info"><div class="activity-name">${sp.song}</div><div class="activity-details">${sp.artist}</div><div class="activity-state">${sp.album}</div></div></div><div class="progress-bar"><span class="time-start">0:00</span><div class="bar"><div class="bar-fill" style="width:0%"></div></div><span class="time-end">${formatTime(total)}</span></div>`;container.appendChild(card);const updateSpotify=()=>{const elapsed=Date.now()-sp.timestamps.start;const progress=Math.min((elapsed/total)*100,100);const fill=card.querySelector('.bar-fill');const start=card.querySelector('.time-start');if(fill)fill.style.width=progress+'%';if(start)start.textContent=formatTime(elapsed);if(progress>=100)updatePresence()};updateSpotify();spotifyInterval=setInterval(updateSpotify,1000)}const activities=d.activities.filter(a=>a.type!==4&&a.name!=='Spotify');activities.forEach(act=>{const card=document.createElement('div');card.className='activity-card';let icon='';if(act.assets?.large_image){if(act.assets.large_image.startsWith('mp:')){icon=`https://media.discordapp.net/${act.assets.large_image.slice(3)}`}else if(act.application_id){icon=`https://cdn.discordapp.com/app-assets/${act.application_id}/${act.assets.large_image}.png`}}let elapsed='';if(act.timestamps?.start){const time=Date.now()-act.timestamps.start;elapsed=`<div class="activity-state">${formatTime(time)} elapsed</div>`}card.innerHTML=`<div class="activity-header">${icon?`<img src="${icon}" class="activity-icon" alt="">`:'<div class="activity-icon"></div>'}<div class="activity-info"><div class="activity-name">${act.name}</div>${act.details?`<div class="activity-details">${act.details}</div>`:''}${act.state&&!act.timestamps?.start?`<div class="activity-state">${act.state}</div>`:elapsed}</div></div>`;container.appendChild(card)});document.getElementById('loading').classList.remove('show');document.getElementById('container').style.opacity='1'}catch(err){console.error(err);document.getElementById('loading').textContent='Failed to load'}}function formatTime(ms){const sec=Math.floor(ms/1000);const min=Math.floor(sec/60);const s=sec%60;return `${min}:${s.toString().padStart(2,'0')}`}typeBio();animateTitle();updatePresence();setInterval(updatePresence,3000);
   </script>
 </body>
 </html>
