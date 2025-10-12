@@ -75,9 +75,9 @@ document.addEventListener('mousemove', e => {
 });
 
 const bioTexts = [
-  "learning FL studio",
-  "big fan of ayowitty",
-  "dre1mer, q2qr, repo, twisted"
+  "Discord Server: https://discord.gg/HH99UKgeZa",
+  "Yeat Is Better",
+  "Cool People: Polar and Pine"
 ];
 let bioIdx = 0;
 let charIdx = 0;
@@ -110,7 +110,7 @@ function typeBio() {
   setTimeout(typeBio, typeSpeed);
 }
 
-const titles = ["k", "ko", "kor", "korp"];
+const titles = ["n", "ne", "neo"];
 let titleIdx = 0;
 let titleFwd = true;
 
