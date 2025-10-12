@@ -106,6 +106,7 @@ async function loopTitleChange() {
 loopTitleChange();
 
 const texts = [
+  "Discord Server: https://discord.gg/uUMERuBqh4",
   "Learning More About Website Security",
   "Yeat Is Better",
   "Orion Drift Basketball",
