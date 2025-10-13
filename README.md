@@ -1,3 +1,5 @@
 # neoswag
 
-Korp helpedeeded me with it because # WE are smart
+# WE are smart
+
+Korp helpedeeded me with it
