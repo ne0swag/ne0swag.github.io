@@ -75,9 +75,9 @@ document.addEventListener('mousemove', e => {
 });
 
 const bioTexts = [
-  "Discord Server: https://discord.gg/HH99UKgeZa",
-  "Yeat Is Better",
-  "Cool People: Polar and Pine"
+  "Discord Server: https://discord.gg/odbc",
+  "Yeat & Hi-C ",
+  "Cool People: Polar"
 ];
 let bioIdx = 0;
 let charIdx = 0;
