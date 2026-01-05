@@ -75,6 +75,7 @@ document.addEventListener('mousemove', e => {
 });
 
 const bioTexts = [
+  "Contact Me @ neoswag@neoswag.win"
   "Discord Server: https://discord.gg/odbc",
   "Yeat & Hi-C ",
   "Cool People: Polar"
