@@ -111,7 +111,7 @@ function typeBio() {
   setTimeout(typeBio, typeSpeed);
 }
 
-const titles = ["n", "ne", "neo"];
+const titles = ["n", "ne", "neo", "neos", "neosw", "neoswa", "neoswag"];
 let titleIdx = 0;
 let titleFwd = true;
 
